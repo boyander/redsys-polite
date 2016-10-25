@@ -6,6 +6,8 @@ const webpackConfig = {
     output: {
         path: './lib',
         filename: 'redsys.js',
+        target: "node", // in order to ignore built-in modules like path, fs, etc.
+        libraryTarget: "commonjs2"
     },
     module: {
         loaders: [{
@@ -13,8 +15,13 @@ const webpackConfig = {
             exclude: /node_modules/,
             loader: 'babel-loader'
         }]
+    },
+    resolve: {
+        alias: {
+            'redsys': './src/redsys'
+        }
     }
-}
+};
 
 // returns a Compiler instance
 var compiler = webpack(webpackConfig);
