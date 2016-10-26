@@ -14,7 +14,7 @@ var Redsys = function(options){
             "DS_MERCHANT_ORDER":payment.order_id,
             "DS_MERCHANT_MERCHANTCODE": this.merchantCode,
             "DS_MERCHANT_CURRENCY":payment.currency,
-            "DS_MERCHANT_TRANSACTIONTYPE":this.transaction_type ,
+            "DS_MERCHANT_TRANSACTIONTYPE":this.transaction_type,
             "DS_MERCHANT_TERMINAL":this.terminal,
             "DS_MERCHANT_MERCHANTURL":payment.redirect_urls.callback_url,
             "DS_MERCHANT_URLOK":payment.redirect_urls.callback_url,
@@ -25,10 +25,10 @@ var Redsys = function(options){
         };
     };
 
-    this.encodeOrder = function(_order_id, secret){
+    this.encodeOrder = function(order_id, secret){
         // Calculate signature
-        var order_id = "asdfasdfasdfasdfasdfasdfd";
-        var crypted = Crypto.DES.encrypt(order_id, secret,{mode: Crypto.mode.CBC });
+        var _secret = base64.decode(secret);
+        var crypted = Crypto.TripleDES.encrypt(order_id, _secret,{mode: Crypto.mode.CBC });
         return crypted.toString();
     };
 
@@ -59,6 +59,7 @@ var RedsysBuilder = function() {
     this.name = "Default-Redsys";
     this.terminal = "1";
     this.language = "auto";
+    this.transaction_type="0";
     // Production URL
     this.url = "https://sis.redsys.es/sis/realizarPago";
     this.setMerchantCode = function(merchant_code){
