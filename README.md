@@ -55,3 +55,9 @@ After that `form_encoded_params` will have the required properties to generate a
       Ds_SignatureVersion: 'HMAC_SHA256_V1',
       Ds_MerchantParameters: '<encoded merchant parameters>',
       Ds_Signature: '<signature>' }
+      
+# Author
+Marc Pomar Torres
+- Email: marc@faable.com
+- Twitter: [@boyander](https://twitter.com/boyander)
+- [LinkedIn](https://www.linkedin.com/in/marc-pomar-torres-8297a536)
