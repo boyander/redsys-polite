@@ -9,6 +9,7 @@ const webpackConfig = {
         target: "node", // in order to ignore built-in modules like path, fs, etc.
         libraryTarget: "commonjs2"
     },
+    target: "node", // in order to ignore built-in modules like path, fs, etc.
     module: {
         loaders: [{
             test: /\.js$/,
