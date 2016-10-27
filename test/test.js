@@ -2,7 +2,7 @@
  * Created by boyander on 24/10/16.
  */
 import chai from 'chai';
-import {RedsysBuilder, PaymentBuilder} from '../src/redsys';
+import {RedsysBuilder, PaymentBuilder} from '../lib/redsys';
 
 chai.should();
 var assert = chai.assert;
@@ -10,7 +10,7 @@ var assert = chai.assert;
 const commerce_code = process.env.COMMERCE_CODE || '0001';
 console.log("Using commerce code -> " + commerce_code);
 
-const secret_code = process.env.SECRET_CODE || "invalid-secret-code";
+const secret_code = process.env.SECRET_CODE || "00000000";
 console.log("Using secret -> " + secret_code);
 
 describe('Redsys', function() {
@@ -35,7 +35,7 @@ describe('Redsys', function() {
         it('builder works with all required properties set', function() {
             var payment = new PaymentBuilder()
                 .setTotal(3.20)
-                .setOrderId(123456)
+                .setOrderId("123456")
                 .setUrlCallback("http://faable.com")
                 .setUrlCancel("http://faable.com/cancel")
                 .setUrlOK("http://faable.com/accept")
