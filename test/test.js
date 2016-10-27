@@ -7,10 +7,10 @@ import {RedsysBuilder, PaymentBuilder} from '../lib/redsys';
 chai.should();
 var assert = chai.assert;
 
-const commerce_code = process.env.COMMERCE_CODE || '0001';
+const commerce_code = process.env.COMMERCE_CODE || '000000000';
 console.log("Using commerce code -> " + commerce_code);
 
-const secret_code = process.env.SECRET_CODE || "00000000";
+const secret_code = process.env.SECRET_CODE || "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 console.log("Using secret -> " + secret_code);
 
 describe('Redsys', function() {
