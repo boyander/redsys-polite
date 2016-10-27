@@ -23,7 +23,6 @@ describe('Redsys', function() {
                         .build();
             redsys.should.have.property('secret');
             redsys.should.have.property('url');
-            //console.log(redsys);
         });
         it('throws error if missing properties on builder', function(){
             var builder = new RedsysBuilder()
@@ -43,28 +42,27 @@ describe('Redsys', function() {
                 .build();
         });
         it('test generate form params', function() {
-            var payment = new PaymentBuilder()
-                .setTotal("3.20")
-                .setOrderId("00000000000000001")
-                .setUrlCallback("http://faable.com")
-                .setUrlCancel("http://faable.com/cancel")
-                .setUrlOK("http://faable.com/accept")
-                .build();
 
             var redsys = new RedsysBuilder()
                 .setMerchantCode(commerce_code)
+                .setName("Faable.com")
                 .setTitular("Marc Pomar")
                 .setSecret(secret_code)
                 .enableDebug()
                 .build();
 
+            var payment = new PaymentBuilder()
+                .setTotal(3.20)
+                .setOrderId("1")
+                .setUrlCallback("http://faable.com")
+                .setUrlCancel("http://faable.com/cancel")
+                .setUrlOK("http://faable.com/accept")
+                .build();
+
             var form_encoded_params = redsys.getFormData(payment)
             var all_params = redsys.generateMerchantParams(payment);
-
-            //console.log(payment);
             console.log(form_encoded_params);
             console.log(all_params);
-
         });
     });
 });

@@ -3,7 +3,7 @@ var Payment = function(options){
 };
 
 var PaymentBuilder = function(){
-    this.currency = '978'; // for euros
+    this.currency = 978; // for euros
     this.description = "";
     this.data = "";
     this.transaction_type = 0;
@@ -13,11 +13,12 @@ var PaymentBuilder = function(){
         cancel_url: ""
     };
     this.setTotal = function(total){
-        this.total = total;
+        this.total = parseInt(total * 100);
         return this;
     };
     this.setOrderId = function(id){
-        this.order_id = id;
+        function zfill(num, len) {return (Array(len).join("0") + num).slice(-len);}
+        this.order_id = zfill(id,8);
         return this;
     };
     this.setDescription = function(description){

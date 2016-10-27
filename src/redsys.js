@@ -1,8 +1,6 @@
 
 import PaymentBuilder from './payment';
-import base64 from 'base-64';
-import Crypto from 'crypto-js';
-
+import crypto from 'crypto';
 
 var Redsys = function(options){
     Object.assign(this, options);
@@ -19,32 +17,40 @@ var Redsys = function(options){
             "DS_MERCHANT_MERCHANTURL":payment.redirect_urls.callback_url,
             "DS_MERCHANT_URLOK":payment.redirect_urls.callback_url,
             "DS_MERCHANT_URLKO":payment.redirect_urls.cancel_url,
+            'DS_MERCHANT_CONSUMERLANGUAGE':'001',
+            'DS_MERCHANT_TITULAR':this.titular,
+            'DS_MERCHANT_MERCHANTNAME':this.name,
+
+            // Test code
             //"DS_MERCHANT_PAN":"4548812049400004",
-            //"DS_MERCHANT_EXPIRYDATE":"1512",
+            //"DS_MERCHANT_EXPIRYDATE":"1220",
             //"DS_MERCHANT_CVV2":"123"
         };
     };
 
     this.encodeOrder = function(order_id, secret){
-        // Calculate signature
-        var _secret = base64.decode(secret);
-        var crypted = Crypto.TripleDES.encrypt(order_id, _secret,{mode: Crypto.mode.CBC });
-        return crypted.toString();
+        var secretKey = new Buffer(secret, 'base64');
+        var iv = new Buffer(8);
+        iv.fill(0);
+        var cipher = crypto.createCipheriv('des-ede3-cbc', secretKey, iv);
+        cipher.setAutoPadding(false);
+        var res = cipher.update(order_id, 'utf8', 'base64') + cipher.final('base64');
+        return res;
     };
 
     this.doSignature = function(order_encoded, merchant){
-        var signature = Crypto.HmacSHA256(merchant, order_encoded); //message, key
-        return base64.encode(signature);
+        var hexMac256 = crypto.createHmac("sha256", new Buffer(order_encoded, 'base64')).update(merchant).digest("hex");
+        return new Buffer(hexMac256, 'hex').toString('base64');
     };
 
     this.getFormData = function(payment){
 
         // Merchant parameters as a Base64-JSON
-        var merchant = base64.encode(JSON.stringify(this.generateMerchantParams(payment)));
+        var merchant = new Buffer(JSON.stringify(this.generateMerchantParams(payment))).toString('base64');
 
         // Calculate signature
         var order_encoded = this.encodeOrder(payment.order_id, this.secret);
-        var signature = this.doSignature(order_encoded,merchant);
+        var signature = this.doSignature(order_encoded, merchant);
 
         return {
             'redsys_url': this.url,
@@ -67,7 +73,7 @@ var RedsysBuilder = function() {
         return this;
     };
     this.setTerminal = function(terminal_number){
-        this.terminal = terminal_number;
+        this.terminal = terminal_numbver;
         return this;
     };
     this.setName = function(name){
