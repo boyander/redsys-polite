@@ -7,10 +7,10 @@ import {RedsysBuilder, PaymentBuilder} from '../src/redsys';
 chai.should();
 var assert = chai.assert;
 
-var commerce_code = process.env.COMMERCE_CODE || '0001';
+const commerce_code = process.env.COMMERCE_CODE || '0001';
 console.log("Using commerce code -> " + commerce_code);
 
-var secret_code = process.env.SECRET_CODE || "invalid-secret-code";
+const secret_code = process.env.SECRET_CODE || "invalid-secret-code";
 console.log("Using secret -> " + secret_code);
 
 describe('Redsys', function() {
@@ -43,7 +43,7 @@ describe('Redsys', function() {
         });
         it('test generate form params', function() {
 
-            var redsys = new RedsysBuilder()
+            const redsys = new RedsysBuilder()
                 .setMerchantCode(commerce_code)
                 .setName("Faable.com")
                 .setTitular("Marc Pomar")
@@ -51,7 +51,7 @@ describe('Redsys', function() {
                 .enableDebug()
                 .build();
 
-            var payment = new PaymentBuilder()
+            const payment = new PaymentBuilder()
                 .setTotal(3.20)
                 .setOrderId("1")
                 .setUrlCallback("http://faable.com")
@@ -59,8 +59,8 @@ describe('Redsys', function() {
                 .setUrlOK("http://faable.com/accept")
                 .build();
 
-            var form_encoded_params = redsys.getFormData(payment)
-            var all_params = redsys.generateMerchantParams(payment);
+            const form_encoded_params = redsys.getFormData(payment);
+            const all_params = redsys.generateMerchantParams(payment);
             console.log(form_encoded_params);
             console.log(all_params);
         });
