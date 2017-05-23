@@ -27,7 +27,6 @@ var Redsys = function(options){
     };
 
     this.encodeOrder = function(order_id, secret){
-        console.log(secret);
         var secretKey = new Buffer(secret, 'base64');
         var iv = new Buffer(8);
         iv.fill(0);
