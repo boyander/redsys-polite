@@ -1,3 +1,4 @@
+/*jshint esversion:6*/
 import webpack from 'webpack';
 import Mocha from 'mocha';
 
@@ -27,7 +28,7 @@ const webpackConfig = {
 // returns a Compiler instance
 var compiler = webpack(webpackConfig);
 var mocha = new Mocha();
-mocha.addFile('./test/test.js')
+mocha.addFile('./test/test.js');
 
 compiler.watch({
     aggregateTimeout: 500,

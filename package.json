@@ -1,6 +1,6 @@
 {
   "name": "redsys-polite",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Use redsys payment platform wherever you want in an easy way ",
   "main": "lib/redsys.js",
   "babel": {
@@ -22,6 +22,9 @@
   },
   "keywords": [
     "credit card",
+    "gateway",
+    "payment gateway",
+    "payment"
     "servired",
     "sermepa",
     "redsys",

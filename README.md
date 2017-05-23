@@ -1,30 +1,27 @@
-
 [![npm version](https://badge.fury.io/js/redsys-polite.svg)](https://badge.fury.io/js/redsys-polite)
 [![GitHub version](https://badge.fury.io/gh/boyander%2Fredsys-polite.svg)](https://badge.fury.io/gh/boyander%2Fredsys-polite)
-
 [![NPM](https://nodei.co/npm/redsys-polite.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/redsys-polite/)
 
 # redsys-polite
-Use redsys payment platform wherever you want in an easy way. 
-It implements the new HMAC-SHA256 for signing the request.
 
+Redsys payment gateway compatible with ES6. It implements the new HMAC-SHA256 requiest signing.
 
-# Importing package
+# Install package
 
 You can install the package with npm:
-    
-    npm install redsys-polite
 
-Usage is fairly easy first just import the module, if using ES6:
+    npm install --save redsys-polite
+
+Import package using ES6:
 
     import {RedsysBuilder, PaymentBuilder} from 'redsys-polite';
 
-Or if using old fashion javascript require:
+If using ES5 (with node):
 
     var RedsysBuilder = require('redsys-polite').RedsysBuilder;
     var PaymentBuilder = require('redsys-polite').PaymentBuilder;
 
-# Usage
+# How to use it
 
 Generate form parameters with the following code.
 
@@ -38,7 +35,7 @@ Generate form parameters with the following code.
         .setSecret(secret_code)
         .enableDebug()
         .build();
-    
+
     const payment = new PaymentBuilder()
         .setTotal(3.20)
         .setOrderId("1")
@@ -46,16 +43,24 @@ Generate form parameters with the following code.
         .setUrlCancel("http://faable.com/cancel")
         .setUrlOK("http://faable.com/accept")
         .build();
-    
+
     const form_encoded_params = redsys.getFormData(payment);
 
-After that `form_encoded_params` will have the required properties to generate a payment form.
+Then `form_encoded_params` will have the required properties to generate a payment form. Use this object to
 
     { redsys_url: 'https://sis-t.redsys.es:25443/sis/realizarPago',
       Ds_SignatureVersion: 'HMAC_SHA256_V1',
       Ds_MerchantParameters: '<encoded merchant parameters>',
       Ds_Signature: '<signature>' }
-      
+
+Form example using React:
+
+      <form action={sign_payment.redsys_url} method="POST" ref="payform" >
+        <input type="hidden" name="Ds_SignatureVersion" value={sign_payment.Ds_SignatureVersion}/>
+        <input type="hidden" name="Ds_MerchantParameters" value={sign_payment.Ds_MerchantParameters}/>
+        <input type="hidden" name="Ds_Signature" value={sign_payment.Ds_Signature}/>
+      </form>
+
 # Author
 Marc Pomar Torres
 - Email: marc@faable.com

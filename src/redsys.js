@@ -1,11 +1,9 @@
-
+/*jshint esversion:6*/
 import PaymentBuilder from './payment';
 import crypto from 'crypto';
 
 var Redsys = function(options){
     Object.assign(this, options);
-
-
     this.generateMerchantParams = function(payment){
         return {
             "DS_MERCHANT_AMOUNT":payment.total,
@@ -14,8 +12,8 @@ var Redsys = function(options){
             "DS_MERCHANT_CURRENCY":payment.currency,
             "DS_MERCHANT_TRANSACTIONTYPE":this.transaction_type,
             "DS_MERCHANT_TERMINAL":this.terminal,
-            "DS_MERCHANT_MERCHANTURL":payment.redirect_urls.callback_url,
-            "DS_MERCHANT_URLOK":payment.redirect_urls.callback_url,
+            "DS_MERCHANT_MERCHANTURL":payment.redirect_urls.merchant_url,
+            "DS_MERCHANT_URLOK":payment.redirect_urls.ok_url,
             "DS_MERCHANT_URLKO":payment.redirect_urls.cancel_url,
             'DS_MERCHANT_CONSUMERLANGUAGE':'001',
             'DS_MERCHANT_TITULAR':this.titular,
@@ -45,7 +43,6 @@ var Redsys = function(options){
     };
 
     this.getFormData = function(payment){
-
         // Merchant parameters as a Base64-JSON
         var merchant = new Buffer(JSON.stringify(this.generateMerchantParams(payment))).toString('base64');
 
@@ -59,57 +56,53 @@ var Redsys = function(options){
             'Ds_MerchantParameters': merchant,
             'Ds_Signature': signature,
         };
-    }
-}
+    };
+};
 
-var RedsysBuilder = function() {
+
+class RedsysBuilder{
+  constructor(){
     this.name = "Default-Redsys";
     this.terminal = "1";
     this.language = "auto";
     this.transaction_type="0";
     // Production URL
     this.url = "https://sis.redsys.es/sis/realizarPago";
-    this.setMerchantCode = function(merchant_code){
-        this.merchantCode = merchant_code;
-        return this;
-    };
-    this.setTerminal = function(terminal_number){
-        this.terminal = terminal_numbver;
-        return this;
-    };
-    this.setName = function(name){
-        this.name;
-        return this;
-    };
-    this.setTitular = function(titular){
-        this.titular = titular;
-        return this;
-    };
-    this.setSecret = function(secret){
-        this.secret = secret;
-        return this;
-    };
-    this.enableDebug = function(){
-        // Change to debug url
-        this.url = "https://sis-t.redsys.es:25443/sis/realizarPago";
-        return this;
-    }
-    this.build = function(){
-        if(this.merchantCode == undefined)
-            throw new Error("Merchant Code not set");
-
-        if(this.titular == undefined)
-            throw new Error("Titular not set");
-
-        if(this.secret == undefined)
-            throw new Error("Secret not set");
-
-        return new Redsys(this);
-    };
-};
-
+  }
+  setMerchantCode(merchant_code){
+      this.merchantCode = merchant_code;
+      return this;
+  }
+  setTerminal(terminal_number){
+      this.terminal = terminal_numbver;
+      return this;
+  }
+  setName(name){
+      this.name = name;
+      return this;
+  }
+  setTitular(titular){
+      this.titular = titular;
+      return this;
+  }
+  setSecret(secret){
+      this.secret = secret;
+      return this;
+  }
+  enableDebug(){
+      // Change to debug url
+      this.url = "https://sis-t.redsys.es:25443/sis/realizarPago";
+      return this;
+  }
+  build(){
+      if(this.merchantCode === undefined) throw new Error("Merchant Code not set");
+      if(this.titular === undefined) throw new Error("Titular not set");
+      if(this.secret === undefined) throw new Error("Secret not set");
+      return new Redsys(this);
+  }
+}
 
 export {
-    RedsysBuilder,
-    PaymentBuilder
+    PaymentBuilder,
+    RedsysBuilder
 };

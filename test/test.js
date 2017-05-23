@@ -1,3 +1,5 @@
+/*jshint esversion:6*/
+
 /**
  * Created by boyander on 24/10/16.
  */
@@ -36,7 +38,7 @@ describe('Redsys', function() {
             var payment = new PaymentBuilder()
                 .setTotal(3.20)
                 .setOrderId("123456")
-                .setUrlCallback("http://faable.com")
+                .setUrlMerchant("http://faable.com")
                 .setUrlCancel("http://faable.com/cancel")
                 .setUrlOK("http://faable.com/accept")
                 .build();
@@ -54,7 +56,7 @@ describe('Redsys', function() {
             const payment = new PaymentBuilder()
                 .setTotal(3.20)
                 .setOrderId("1")
-                .setUrlCallback("http://faable.com")
+                .setUrlMerchant("http://faable.com")
                 .setUrlCancel("http://faable.com/cancel")
                 .setUrlOK("http://faable.com/accept")
                 .build();
