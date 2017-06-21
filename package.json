@@ -13,7 +13,7 @@
     ]
   },
   "scripts": {
-    "test": "mocha --compilers js:babel-register",
+    "test": "ava",
     "build": "babel-node builder.js"
   },
   "repository": {
@@ -40,6 +40,7 @@
   },
   "homepage": "https://github.com/boyander/redsys-polite#readme",
   "devDependencies": {
+    "ava": "^0.19.1",
     "babel-cli": "^6.16.0",
     "babel-core": "^6.17.0",
     "babel-loader": "^6.2.5",
@@ -47,8 +48,16 @@
     "babel-preset-es2015": "^6.16.0",
     "babel-preset-node5": "^11.1.0",
     "babel-preset-node6": "^11.0.0",
-    "chai": "^3.5.0",
-    "mocha": "^3.1.2",
     "webpack": "^1.13.2"
+  },
+  "ava": {
+    "modules": false,
+    "require": [
+      "babel-register"
+    ],
+    "files": [
+      "test/*.spec.js"
+    ],
+    "babel": "inherit"
   }
 }
