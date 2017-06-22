@@ -1,13 +1,12 @@
 /*jshint esversion:6*/
-require('dotenv').config()
+require('dotenv').config();
 import test from 'ava';
-import {RedsysBuilder, PaymentBuilder} from '../lib/redsys';
+import {RedsysBuilder, PaymentBuilder} from '../src/index';
 
 const secret_data = {
   commerce_code: process.env.COMMERCE_CODE || '000000000',
   secret_code: process.env.COMMERCE_SECRET || "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 };
-console.log(secret_data);
 
 test('builder works with all required properties set',t => {
   var redsys = new RedsysBuilder()

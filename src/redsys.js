@@ -1,5 +1,4 @@
 /*jshint esversion:6*/
-import PaymentBuilder from './payment';
 import crypto from 'crypto';
 
 class Redsys {
@@ -44,29 +43,17 @@ class Redsys {
   }
 
   _decodeNotifiedMerchantParams(signature, merchantData){
-    // Se decodifican los datos Base64
-    // $decodec = $this->base64_url_decode($datos);
-    // Los datos decodificados se pasan al array de datos
-    // $this->stringToArray($decodec);
-    let decodedData = JSON.parse(new Buffer(merchantData,'base64'));
-    console.log(decodedData);
-
-    // Se decodifica la clave Base64
-    let secretKey = new Buffer(this.secret, 'base64');
-/*
-
-// Se diversifica la clave con el Número de Pedido
-$key = $this->encrypt_3DES($this->getOrderNotif(), $key);
-
-// MAC256 del parámetro Ds_Parameters que envía Redsys
-$res = $this->mac256($datos, $key);
-// Se codifican los datos Base64
-return $this->base64_url_encode($res);	*/
-    var key = this.encodeOrder(decodedData["Ds_Order"], secretKey);
-    var hexMac256 = crypto.createHmac("sha256", key).update(merchantData).digest("base64");
-    console.log("Digested data is");
-    console.log(hexMac256);
-    console.log(signature);
+    return new Promise((resolve,reject) =>{
+      let decodedData = JSON.parse(new Buffer(merchantData,'base64'));
+      let secretKey = new Buffer(this.secret, 'base64');
+      let key = this.encodeOrder(decodedData.Ds_Order, secretKey);
+      let hexMac256 = crypto.createHmac("sha256", new Buffer(key, 'base64')).update(merchantData).digest('base64');
+      if(hexMac256 === signature){
+        resolve(decodedData);
+      } else {
+        reject(new Error('Signature is not valid'));
+      }
+    });
   }
 
   getFormData(payment) {
@@ -86,7 +73,7 @@ return $this->base64_url_encode($res);	*/
   }
 }
 
-class RedsysBuilder {
+export default class RedsysBuilder {
   constructor() {
     this.name = "Default-Redsys";
     this.terminal = "1";
@@ -127,8 +114,3 @@ class RedsysBuilder {
     return new Redsys(this);
   }
 }
-
-export {
-  PaymentBuilder,
-  RedsysBuilder
-};
