@@ -3,8 +3,8 @@ import PaymentBuilder from './payment';
 import crypto from 'crypto';
 
 class Redsys {
-  constructor(parmeters) {
-    Object.assign(this, options);
+  constructor(p) {
+    Object.assign(this, p);
     this.generateMerchantParams = function(payment) {
       return {
         "DS_MERCHANT_AMOUNT": payment.total,
@@ -43,15 +43,16 @@ class Redsys {
     return new Buffer(hexMac256, 'hex').toString('base64');
   }
 
-  validateSignature(signature, merchantData){
-    // Se decodifica la clave Base64
-    let secretKey = new Buffer(secret, 'base64');
+  _decodeNotifiedMerchantParams(signature, merchantData){
     // Se decodifican los datos Base64
     // $decodec = $this->base64_url_decode($datos);
     // Los datos decodificados se pasan al array de datos
     // $this->stringToArray($decodec);
     let decodedData = JSON.parse(new Buffer(merchantData,'base64'));
+    console.log(decodedData);
 
+    // Se decodifica la clave Base64
+    let secretKey = new Buffer(this.secret, 'base64');
 /*
 
 // Se diversifica la clave con el Número de Pedido
@@ -61,9 +62,11 @@ $key = $this->encrypt_3DES($this->getOrderNotif(), $key);
 $res = $this->mac256($datos, $key);
 // Se codifican los datos Base64
 return $this->base64_url_encode($res);	*/
-    var hexMac256 = crypto.createHmac("sha256", new Buffer(order_encoded, 'base64')).update(merchantData).digest("hex");
-    return new Buffer(hexMac256, 'hex').toString('base64');
-
+    var key = this.encodeOrder(decodedData["Ds_Order"], secretKey);
+    var hexMac256 = crypto.createHmac("sha256", key).update(merchantData).digest("base64");
+    console.log("Digested data is");
+    console.log(hexMac256);
+    console.log(signature);
   }
 
   getFormData(payment) {
