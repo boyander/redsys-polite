@@ -5,3 +5,4 @@ npm-debug.log
 test/index.html
 
 test/__snapshots__
+test/test.merchantparams.spec.js
