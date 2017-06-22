@@ -4,7 +4,7 @@
 
 # redsys-polite
 
-Redsys payment gateway compatible with ES6. It implements the new HMAC-SHA256 requiest signing.
+Redsys payment gateway compatible with ES6. It implements the new HMAC-SHA256 request signing procedure.
 
 # Install package
 
@@ -16,7 +16,7 @@ Import package using ES6:
 
     import {RedsysBuilder, PaymentBuilder} from 'redsys-polite';
 
-If using ES5 (with node):
+With node:
 
     var RedsysBuilder = require('redsys-polite').RedsysBuilder;
     var PaymentBuilder = require('redsys-polite').PaymentBuilder;
@@ -60,6 +60,25 @@ Form example using React:
         <input type="hidden" name="Ds_MerchantParameters" value={sign_payment.Ds_MerchantParameters}/>
         <input type="hidden" name="Ds_Signature" value={sign_payment.Ds_Signature}/>
       </form>
+
+# Decode POST notification received from payment server
+
+With initialized redsys object using RedsysBuilder call the method like this:
+  var Ds_Signature = req.body.Ds_Signature;
+  var Ds_MerchantParameters = req.body.Ds_MerchantParameters;
+  redsys.decodeNotifiedMerchantParams(Ds_Signature, Ds_MerchantParameters)
+      .then((decodedParams) => console.log(decodedParams))
+      .catch(e => console.log(e)); // Catch error for invalid signature
+
+`_decodeNotifiedMerchantParams` returns a promise that is rejected if signature is not valid. Remember to catch it like the shown example.
+
+# Redsys server notification
+
+Convert response DS_Code to a message string:
+
+  import {codeToMessage} from 'redsys-polite';
+  var obj = codeToMessage('9915'); // Example Ds_Response code can be 9915, user canceled the payment;
+  console.log(obj.message); // Prints text description for this code
 
 # Author
 Marc Pomar Torres

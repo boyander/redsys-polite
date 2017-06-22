@@ -2,7 +2,7 @@
 
 import PaymentBuilder from './payment';
 import RedsysBuilder from './redsys';
-import codeToMessage from './error_codes';
+import { codeToMessage } from './error_codes';
 
 export {
   PaymentBuilder,
