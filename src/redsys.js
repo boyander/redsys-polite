@@ -45,16 +45,18 @@ class Redsys {
 
   validateSignature(signature, merchantData){
     // Se decodifica la clave Base64
-    let key = new Buffer(secret, 'base64');
+    let secretKey = new Buffer(secret, 'base64');
+    // Se decodifican los datos Base64
+    // $decodec = $this->base64_url_decode($datos);
+    // Los datos decodificados se pasan al array de datos
+    // $this->stringToArray($decodec);
     let decodedData = JSON.parse(new Buffer(merchantData,'base64'));
 
 /*
-// Se decodifican los datos Base64
-$decodec = $this->base64_url_decode($datos);
-// Los datos decodificados se pasan al array de datos
-$this->stringToArray($decodec);
+
 // Se diversifica la clave con el Número de Pedido
 $key = $this->encrypt_3DES($this->getOrderNotif(), $key);
+
 // MAC256 del parámetro Ds_Parameters que envía Redsys
 $res = $this->mac256($datos, $key);
 // Se codifican los datos Base64

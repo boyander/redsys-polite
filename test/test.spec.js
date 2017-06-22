@@ -1,11 +1,11 @@
 /*jshint esversion:6*/
-
+require('dotenv').config()
 import test from 'ava';
 import {RedsysBuilder, PaymentBuilder} from '../lib/redsys';
 
 const secret_data = {
   commerce_code: process.env.COMMERCE_CODE || '000000000',
-  secret_code: process.env.SECRET_CODE || "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  secret_code: process.env.COMMERCE_SECRET || "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 };
 console.log(secret_data);
 
