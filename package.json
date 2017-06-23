@@ -1,6 +1,6 @@
 {
   "name": "redsys-polite",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Use redsys payment platform wherever you want in an easy way ",
   "main": "dist/redsys-polite.js",
   "babel": {
@@ -14,8 +14,7 @@
   },
   "scripts": {
     "test": "ava",
-    "watch": "webpack -w",
-    "prepublishOnly": "webpack"
+    "watch": "webpack -w"
   },
   "repository": {
     "type": "git",
@@ -48,7 +47,9 @@
     "babel-preset-es2015": "^6.16.0",
     "babel-preset-node5": "^11.1.0",
     "babel-preset-node6": "^11.0.0",
-    "dotenv": "^4.0.0"
+    "dotenv": "^4.0.0",
+    "webpack": "^3.0.0",
+    "babel-loader": "^7.1.0"
   },
   "ava": {
     "modules": false,
@@ -61,8 +62,6 @@
     "babel": "inherit"
   },
   "dependencies": {
-    "babel-loader": "^7.1.0",
-    "crypto": "0.0.3",
-    "webpack": "^3.0.0"
+    "crypto": "0.0.3"
   }
 }
