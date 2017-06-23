@@ -14,7 +14,8 @@
   },
   "scripts": {
     "test": "ava",
-    "build": "babel-node builder.js"
+    "build": "babel-node builder.js",
+    "prepublishOnly": "babel-node builder.js"
   },
   "repository": {
     "type": "git",
@@ -60,5 +61,8 @@
       "test/*.spec.js"
     ],
     "babel": "inherit"
+  },
+  "dependencies": {
+    "crypto": "0.0.3"
   }
 }
