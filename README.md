@@ -39,7 +39,6 @@ Generate form parameters with the following code.
     const payment = new PaymentBuilder()
         .setTotal(3.20)
         .setOrderId("1")
-        .setUrlCallback("http://faable.com")
         .setUrlCancel("http://faable.com/cancel")
         .setUrlOK("http://faable.com/accept")
         .build();
