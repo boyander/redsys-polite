@@ -4,26 +4,28 @@ import crypto from 'crypto';
 class Redsys {
   constructor(p) {
     Object.assign(this, p);
-    this.generateMerchantParams = function(payment) {
-      return {
-        "DS_MERCHANT_AMOUNT": payment.total,
-        "DS_MERCHANT_ORDER": payment.order_id,
-        "DS_MERCHANT_MERCHANTCODE": this.merchantCode,
-        "DS_MERCHANT_CURRENCY": payment.currency,
-        "DS_MERCHANT_TRANSACTIONTYPE": this.transaction_type,
-        "DS_MERCHANT_TERMINAL": this.terminal,
-        "DS_MERCHANT_MERCHANTURL": payment.redirect_urls.merchant_url,
-        "DS_MERCHANT_URLOK": payment.redirect_urls.ok_url,
-        "DS_MERCHANT_URLKO": payment.redirect_urls.cancel_url,
-        'DS_MERCHANT_CONSUMERLANGUAGE': '001',
-        'DS_MERCHANT_TITULAR': this.titular,
-        'DS_MERCHANT_MERCHANTNAME': this.name,
+  }
 
-        // Test code
-        //"DS_MERCHANT_PAN":"4548812049400004",
-        //"DS_MERCHANT_EXPIRYDATE":"1220",
-        //"DS_MERCHANT_CVV2":"123"
-      };
+  generateMerchantParams(payment){
+    return {
+      "DS_MERCHANT_AMOUNT": payment.total,
+      "DS_MERCHANT_ORDER": payment.order_id,
+      "DS_MERCHANT_MERCHANTCODE": this.merchantCode,
+      "DS_MERCHANT_CURRENCY": payment.currency,
+      "DS_MERCHANT_TRANSACTIONTYPE": this.transaction_type,
+      "DS_MERCHANT_TERMINAL": this.terminal,
+      "DS_MERCHANT_MERCHANTURL": payment.redirect_urls.merchant_url,
+      "DS_MERCHANT_URLOK": payment.redirect_urls.ok_url,
+      "DS_MERCHANT_URLKO": payment.redirect_urls.cancel_url,
+      'DS_MERCHANT_CONSUMERLANGUAGE': '001',
+      'DS_MERCHANT_TITULAR': this.titular,
+      'DS_MERCHANT_MERCHANTNAME': this.name,
+      'DS_MERCHANT_IDENTIFIER': this.setPayByReference,
+      'DS_MERCHANT_DIRECTPAYMENT': this.directPayment
+      // Test code
+      //"DS_MERCHANT_PAN":"4548812049400004",
+      //"DS_MERCHANT_EXPIRYDATE":"1220",
+      //"DS_MERCHANT_CVV2":"123"
     };
   }
 
@@ -79,6 +81,8 @@ export default class RedsysBuilder {
     this.terminal = "1";
     this.language = "auto";
     this.transaction_type = "0";
+    this.setPayByReference = '';
+    this.directPayment = false;
     // Production URL
     this.url = "https://sis.redsys.es/sis/realizarPago";
   }
@@ -96,6 +100,14 @@ export default class RedsysBuilder {
   }
   setTitular(titular) {
     this.titular = titular;
+    return this;
+  }
+  enablePayByReference(reference){
+    this.setPayByReference = reference || "REQUIRED";
+    return this;
+  }
+  enableDirectPayment() {
+    this.directPayment = true;
     return this;
   }
   setSecret(secret) {

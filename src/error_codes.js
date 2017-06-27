@@ -57,6 +57,11 @@ const codeToMessage = (code) => {
     case 9997: return NOT_OK("Se está procesando otra transacción en SIS con la misma tarjeta");
     case 9998: return NOT_OK("Operación en proceso de solicitud de datos de tarjeta");
     case 9999: return NOT_OK("Operación que ha sido redirigida al emisor a autenticar");
+    case 298: return NOT_OK("El comercio no permite realizar operaciones de Tarjeta en Archivo");
+    case 319: return NOT_OK("El comercio no pertenece al grupo especificado en Ds_Merchant_Group");
+    case 321: return NOT_OK("La referencia indicada en Ds_Merchant_Identifier no está asociada al comercio");
+    case 322: return NOT_OK("Error de formato en Ds_Merchant_Group");
+    case 325: return NOT_OK("Se ha pedido no mostrar pantallas pero no se ha enviado ninguna referencia de tarjeta");
     default: return NOT_OK("UNDEFINED ANSWER");
   }
 };

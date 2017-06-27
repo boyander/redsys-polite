@@ -39,6 +39,7 @@ Generate form parameters with the following code.
     const payment = new PaymentBuilder()
         .setTotal(3.20)
         .setOrderId("1")
+        .setUrlMerchant("http://faable.com/notify")
         .setUrlCancel("http://faable.com/cancel")
         .setUrlOK("http://faable.com/accept")
         .build();
@@ -74,7 +75,6 @@ With initialized redsys object using RedsysBuilder call the method like this:
 # Redsys server notification
 
 Convert response DS_Code to a message string:
-
   import {codeToMessage} from 'redsys-polite';
   var obj = codeToMessage('9915'); // Example Ds_Response code can be 9915, user canceled the payment;
   console.log(obj.message); // Prints text description for this code

@@ -234,7 +234,11 @@ var Redsys = function () {
     _classCallCheck(this, Redsys);
 
     Object.assign(this, p);
-    this.generateMerchantParams = function (payment) {
+  }
+
+  _createClass(Redsys, [{
+    key: "generateMerchantParams",
+    value: function generateMerchantParams(payment) {
       return {
         "DS_MERCHANT_AMOUNT": payment.total,
         "DS_MERCHANT_ORDER": payment.order_id,
@@ -247,13 +251,16 @@ var Redsys = function () {
         "DS_MERCHANT_URLKO": payment.redirect_urls.cancel_url,
         'DS_MERCHANT_CONSUMERLANGUAGE': '001',
         'DS_MERCHANT_TITULAR': this.titular,
-        'DS_MERCHANT_MERCHANTNAME': this.name
-
+        'DS_MERCHANT_MERCHANTNAME': this.name,
+        'DS_MERCHANT_IDENTIFIER': this.setPayByReference,
+        'DS_MERCHANT_DIRECTPAYMENT': this.enableDirectPayment
+        // Test code
+        //"DS_MERCHANT_PAN":"4548812049400004",
+        //"DS_MERCHANT_EXPIRYDATE":"1220",
+        //"DS_MERCHANT_CVV2":"123"
       };
-    };
-  }
-
-  _createClass(Redsys, [{
+    }
+  }, {
     key: "encodeOrder",
     value: function encodeOrder(order_id, secret) {
       var secretKey = new Buffer(secret, 'base64');
@@ -317,6 +324,8 @@ var RedsysBuilder = function () {
     this.terminal = "1";
     this.language = "auto";
     this.transaction_type = "0";
+    this.setPayByReference = '';
+    this.enableDirectPayment = false;
     // Production URL
     this.url = "https://sis.redsys.es/sis/realizarPago";
   }
@@ -343,6 +352,18 @@ var RedsysBuilder = function () {
     key: "setTitular",
     value: function setTitular(titular) {
       this.titular = titular;
+      return this;
+    }
+  }, {
+    key: "enablePayByReference",
+    value: function enablePayByReference(reference) {
+      this.setPayByReference = reference || "REQUIRED";
+      return this;
+    }
+  }, {
+    key: "enableDirectPayment",
+    value: function enableDirectPayment() {
+      this.enableDirectPayment = true;
       return this;
     }
   }, {
@@ -485,6 +506,16 @@ var codeToMessage = function codeToMessage(code) {
       return NOT_OK("Operación en proceso de solicitud de datos de tarjeta");
     case 9999:
       return NOT_OK("Operación que ha sido redirigida al emisor a autenticar");
+    case 298:
+      return NOT_OK("El comercio no permite realizar operaciones de Tarjeta en Archivo");
+    case 319:
+      return NOT_OK("El comercio no pertenece al grupo especificado en Ds_Merchant_Group");
+    case 321:
+      return NOT_OK("La referencia indicada en Ds_Merchant_Identifier no está asociada al comercio");
+    case 322:
+      return NOT_OK("Error de formato en Ds_Merchant_Group");
+    case 325:
+      return NOT_OK("Se ha pedido no mostrar pantallas pero no se ha enviado ninguna referencia de tarjeta");
     default:
       return NOT_OK("UNDEFINED ANSWER");
   }
