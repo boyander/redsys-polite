@@ -1,5 +1,5 @@
 /*!
- *  redsys-polite - 1.4.0
+ *  redsys-polite - 1.4.2
  *  Marc Pomar Torres - marc@faable.com 
  *  created by Faable.com 
  *  file:redsys-polite.js 
@@ -277,10 +277,10 @@ var Redsys = function () {
 
       return new Promise(function (resolve, reject) {
         var decodedData = JSON.parse(new Buffer(merchantData, 'base64'));
-        var secretKey = new Buffer(_this.secret, 'base64');
-        var key = _this.encodeOrder(decodedData.Ds_Order, secretKey);
-        var hexMac256 = _crypto2.default.createHmac("sha256", new Buffer(key, 'base64')).update(merchantData).digest('base64');
-        if (hexMac256 === signature) {
+        var key = _this.encodeOrder(decodedData.Ds_Order, _this.secret);
+        var hexMac256 = _crypto2.default.createHmac("sha256", new Buffer(key, 'base64')).update(merchantData).digest();
+        var signatureBuffer = new Buffer(signature, 'base64');
+        if (hexMac256.equals(signatureBuffer)) {
           resolve(decodedData);
         } else {
           reject(new Error('Signature is not valid'));
