@@ -45,10 +45,10 @@ class Redsys {
   _decodeNotifiedMerchantParams(signature, merchantData){
     return new Promise((resolve,reject) =>{
       let decodedData = JSON.parse(new Buffer(merchantData,'base64'));
-      let secretKey = new Buffer(this.secret, 'base64');
-      let key = this.encodeOrder(decodedData.Ds_Order, secretKey);
-      let hexMac256 = crypto.createHmac("sha256", new Buffer(key, 'base64')).update(merchantData).digest('base64');
-      if(hexMac256 === signature){
+      let key = this.encodeOrder(decodedData.Ds_Order, this.secret);
+      let hexMac256 = crypto.createHmac("sha256", new Buffer(key, 'base64')).update(merchantData).digest();
+      let signatureBuffer = new Buffer(signature, 'base64');
+      if(hexMac256.equals(signatureBuffer)){
         resolve(decodedData);
       } else {
         reject(new Error('Signature is not valid'));
