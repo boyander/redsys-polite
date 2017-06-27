@@ -1,6 +1,6 @@
 {
   "name": "redsys-polite",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Use redsys payment platform wherever you want in an easy way ",
   "main": "dist/redsys-polite.js",
   "babel": {
