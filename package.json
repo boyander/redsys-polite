@@ -1,6 +1,6 @@
 {
   "name": "redsys-polite",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Use redsys payment platform wherever you want in an easy way ",
   "main": "dist/redsys-polite.js",
   "babel": {
@@ -14,7 +14,8 @@
   },
   "scripts": {
     "test": "ava",
-    "watch": "webpack -w"
+    "watch": "webpack -w",
+    "build": "webpack -w"
   },
   "repository": {
     "type": "git",
