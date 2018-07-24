@@ -91,7 +91,7 @@ export default class RedsysBuilder {
     return this;
   }
   setTerminal(terminal_number) {
-    this.terminal = terminal_numbver;
+    this.terminal = terminal_number;
     return this;
   }
   setName(name) {
