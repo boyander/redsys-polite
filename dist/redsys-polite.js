@@ -339,7 +339,7 @@ var RedsysBuilder = function () {
   }, {
     key: "setTerminal",
     value: function setTerminal(terminal_number) {
-      this.terminal = terminal_numbver;
+      this.terminal = terminal_number;
       return this;
     }
   }, {
