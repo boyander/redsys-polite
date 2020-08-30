@@ -9,6 +9,7 @@ export default class PaymentBuilder {
     this.currency = 978; // for euros
     this.description = "";
     this.data = "";
+    this.payMethods = "";
     this.transaction_type = 0;
     this.redirect_urls = {
         merchant_url: "",
@@ -31,6 +32,10 @@ export default class PaymentBuilder {
   }
   setCurrency(currency){
       this.currency = currency;
+      return this;
+  }
+  setPayMethods(payMethods){
+      this.payMethods = payMethods;
       return this;
   }
   setUrlOK(url){

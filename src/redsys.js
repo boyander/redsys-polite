@@ -21,7 +21,8 @@ class Redsys {
       'DS_MERCHANT_TITULAR': this.titular,
       'DS_MERCHANT_MERCHANTNAME': this.name,
       'DS_MERCHANT_IDENTIFIER': this.setPayByReference,
-      'DS_MERCHANT_DIRECTPAYMENT': this.directPayment
+      'DS_MERCHANT_DIRECTPAYMENT': this.directPayment,
+      'DS_MERCHANT_PAYMETHODS': payment.payMethods,
       // Test code
       //"DS_MERCHANT_PAN":"4548812049400004",
       //"DS_MERCHANT_EXPIRYDATE":"1220",
